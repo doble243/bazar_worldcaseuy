@@ -49,10 +49,15 @@ export default function Footer() {
       {/* contact grid */}
       <div className="mx-auto grid max-w-[1500px] grid-cols-1 gap-10 px-4 py-14 sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:px-10">
         <div className="lg:col-span-2">
-          <p className="font-display text-2xl uppercase text-paper">
-            WORLDCASE<span className="text-forge">UY</span> BAZAR
-          </p>
-          <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.35em] text-fog">by Aluminios Mariposa</p>
+          <div className="flex items-center gap-3.5">
+            <img src="/logo_sinfondo_WC.png" alt="WORLDCASEUY Logo" className="h-12 w-auto object-contain" />
+            <div>
+              <p className="font-display text-2xl uppercase text-paper">
+                WORLDCASE<span className="text-forge">UY</span> BAZAR
+              </p>
+              <p className="mt-0.5 font-mono text-[10px] uppercase tracking-[0.35em] text-fog">by Aluminios Mariposa</p>
+            </div>
+          </div>
           <p className="mt-6 max-w-sm text-sm leading-relaxed text-fog">
             Bazar y menaje en aluminio, acero inoxidable, cobre y hierro. Para hogares, restaurantes y trabajos especiales.
           </p>

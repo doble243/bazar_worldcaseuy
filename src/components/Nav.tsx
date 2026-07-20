@@ -46,9 +46,7 @@ export default function Nav({ basketCount, onOpenBasket }: Props) {
       <div className="mx-auto flex h-16 md:h-[76px] max-w-[1500px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-10">
         {/* Brand */}
         <a href="#top" className="group flex items-center gap-3">
-          <span className="grid size-9 md:size-10 place-items-center rounded-md bg-forge text-white shadow-[0_0_24px_rgba(242,100,25,0.25)]">
-            <ButterflyMark className="size-5" />
-          </span>
+          <img src="/logo_sinfondo_WC.png" alt="WORLDCASEUY Logo" className="h-10 md:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105" />
           <span className="leading-none">
             <span className="block font-display text-lg md:text-xl tracking-wide text-paper">
               WORLDCASE<span className="text-forge">UY</span> <span className="hidden sm:inline">BAZAR</span>

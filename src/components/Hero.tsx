@@ -43,15 +43,18 @@ export default function Hero() {
       <div className="mx-auto grid w-full max-w-[1500px] flex-1 grid-cols-1 items-center gap-10 px-4 sm:px-6 lg:grid-cols-[1.35fr_1fr] lg:gap-4 lg:px-10">
         {/* Type block */}
         <div className="relative z-10 pb-6 pt-10 lg:pb-16">
-          <motion.p
+          <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease, delay: 0.15 }}
-            className="mb-6 flex items-center gap-3 font-mono text-[10px] md:text-[11px] uppercase tracking-[0.4em] text-forge"
+            className="mb-6 flex items-center gap-3.5"
           >
-            <span className="h-px w-10 bg-forge" />
-            Productos Aluminio Mariposa · Montevideo
-          </motion.p>
+            <img src="/logo_sinfondo_WC.png" alt="WORLDCASEUY Logo" className="h-10 sm:h-12 w-auto object-contain" />
+            <p className="flex items-center gap-3 font-mono text-[10px] md:text-[11px] uppercase tracking-[0.4em] text-forge">
+              <span className="h-px w-8 bg-forge" />
+              Productos Aluminio Mariposa · Montevideo
+            </p>
+          </motion.div>
 
           <h1 className="font-display uppercase leading-[0.92] tracking-tight">
             <motion.span
