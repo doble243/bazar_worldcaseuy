@@ -9,8 +9,9 @@ interface Props {
 }
 
 /** Imagen de producto original con fallback estilizado si el servidor origen no responde. */
-export default function ProductImage({ src, alt, className = "", blend = true }: Props) {
+export default function ProductImage({ src, alt, className = "", blend = false }: Props) {
   const [failed, setFailed] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   if (failed) {
     return (
@@ -29,8 +30,11 @@ export default function ProductImage({ src, alt, className = "", blend = true }:
       alt={alt}
       loading="lazy"
       draggable={false}
+      onLoad={() => setLoaded(true)}
       onError={() => setFailed(true)}
-      className={`${className} ${blend ? "mix-blend-multiply" : ""} select-none`}
+      className={`${className} ${blend ? "mix-blend-multiply" : ""} ${
+        loaded ? "opacity-100 scale-100" : "opacity-0 scale-95"
+      } transition-all duration-500 select-none object-contain`}
     />
   );
 }

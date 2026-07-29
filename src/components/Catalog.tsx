@@ -18,6 +18,9 @@ function Card({ p, index, onSelect }: { p: Product; index: number; onSelect: (p:
   const cat = CATEGORIES.find((c) => c.id === p.category)!;
   const first = p.variants[0];
   const codes = p.variants.length;
+  const prices = p.variants.map((v) => v.price).filter((pr): pr is number => pr != null);
+  const minPrice = prices.length ? Math.min(...prices) : null;
+
   return (
     <motion.button
       layout
@@ -25,42 +28,61 @@ function Card({ p, index, onSelect }: { p: Product; index: number; onSelect: (p:
       whileInView={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.94 }}
       viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.7, ease, delay: (index % 4) * 0.05 }}
+      transition={{ duration: 0.6, ease, delay: (index % 4) * 0.04 }}
       onClick={() => onSelect(p)}
-      className="group relative flex flex-col overflow-hidden rounded-xl border border-line bg-white text-left shadow-2xs transition-all duration-300 hover:border-forge/50 hover:shadow-md"
+      className="group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-white text-left shadow-2xs transition-all duration-300 hover:border-forge/60 hover:shadow-[0_16px_40px_rgba(0,0,0,0.12)] hover:-translate-y-1"
     >
       {/* image studio */}
-      <div className="paper-studio noise relative aspect-[5/4] w-full overflow-hidden border-b border-line">
-        <span className="absolute left-3.5 top-3 z-10 rounded-full border border-line bg-white/90 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.2em] text-silver backdrop-blur">
+      <div className="relative aspect-[4/3] w-full overflow-hidden border-b border-line bg-gradient-to-b from-stone-100/80 via-white to-stone-50/50 p-5 sm:p-7">
+        <span className="absolute left-3.5 top-3 z-10 rounded-full border border-line/80 bg-white/95 px-3 py-1 font-mono text-[9px] font-semibold uppercase tracking-[0.2em] text-paper shadow-2xs backdrop-blur">
           {cat.short}
         </span>
-        <span className="absolute right-3.5 top-3 z-10 flex items-center gap-1 rounded-full bg-forge px-2.5 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.15em] text-white shadow-xs">
-          <Layers className="size-2.5" />
+        <span className="absolute right-3.5 top-3 z-10 flex items-center gap-1 rounded-full bg-paper px-2.5 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.15em] text-white shadow-xs">
+          <Layers className="size-2.5 text-forge" />
           {codes} {codes === 1 ? "medida" : "medidas"}
         </span>
-        <div className="flex h-full w-full items-center justify-center p-7 transition-transform duration-500 ease-out group-hover:scale-[1.06]">
+
+        <div className="flex h-full w-full items-center justify-center transition-transform duration-500 ease-out group-hover:scale-105">
           <ProductImage
             src={p.img}
             alt={p.name}
-            className="max-h-full max-w-full object-contain drop-shadow-[0_12px_20px_rgba(0,0,0,0.1)]"
+            blend={false}
+            className="max-h-full max-w-full object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.12)]"
           />
         </div>
-        <span className="absolute bottom-3 left-3.5 font-mono text-[10px] tracking-[0.15em] text-fog/50">
-          N°{String(index + 1).padStart(2, "0")}
-        </span>
+
+        {/* Hover zoom overlay indicator */}
+        <div className="absolute inset-0 flex items-center justify-center bg-paper/10 opacity-0 backdrop-blur-[2px] transition-opacity duration-300 group-hover:opacity-100">
+          <span className="flex items-center gap-2 rounded-full bg-forge px-4 py-2 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-white shadow-lg">
+            <Plus className="size-3.5" /> Ver detalles
+          </span>
+        </div>
       </div>
 
       {/* info */}
-      <div className="flex flex-1 items-start justify-between gap-3 p-4">
-        <div className="min-w-0">
-          <h3 className="clamp-2 text-[15px] font-semibold leading-snug text-paper">{p.name}</h3>
-          <p className="mt-1.5 truncate font-mono text-[10px] uppercase tracking-[0.18em] text-fog">
+      <div className="flex flex-1 flex-col justify-between p-4 sm:p-5">
+        <div>
+          <h3 className="clamp-2 text-base font-semibold leading-snug text-paper group-hover:text-forge transition-colors">
+            {p.name}
+          </h3>
+          <p className="mt-1 truncate font-mono text-[11px] uppercase tracking-[0.15em] text-fog">
             {first ? `${first.size}${codes > 1 ? "  ·  …" : ""}` : ""}
           </p>
         </div>
-        <span className="mt-0.5 grid size-9 shrink-0 place-items-center rounded-full border border-line bg-panel text-fog transition-all duration-300 group-hover:border-forge group-hover:bg-forge group-hover:text-white">
-          <Plus className="size-4" />
-        </span>
+
+        <div className="mt-4 flex items-center justify-between border-t border-line/60 pt-3">
+          {minPrice ? (
+            <span className="font-mono text-xs font-bold text-forge">
+              <span className="text-[10px] font-normal uppercase text-fog tracking-wider mr-1">Desde</span>
+              ${minPrice.toLocaleString("es-UY")}
+            </span>
+          ) : (
+            <span className="font-mono text-xs text-fog">Consultar</span>
+          )}
+          <span className="grid size-8 place-items-center rounded-full border border-line bg-panel text-fog transition-all duration-300 group-hover:border-forge group-hover:bg-forge group-hover:text-white">
+            <Plus className="size-3.5" />
+          </span>
+        </div>
       </div>
     </motion.button>
   );

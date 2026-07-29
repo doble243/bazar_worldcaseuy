@@ -56,7 +56,7 @@ export default function App() {
     <div className="relative min-h-screen bg-ink">
       <Nav basketCount={items.length} onOpenBasket={() => setDrawer(true)} />
       <main>
-        <Hero />
+        <Hero query={query} setQuery={setQuery} />
         <Lines onPick={pickCat} />
         <Catalog
           products={filtered}

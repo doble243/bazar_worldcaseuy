@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowDown, Ruler, Package, Factory } from "lucide-react";
+import { ArrowRight, Ruler, Package, Factory, Search, X } from "lucide-react";
 import ProductImage from "./ProductImage";
 import { PRODUCTS_ENRICHED, totalVariants } from "../data/products";
 
@@ -7,6 +7,11 @@ const HERO_IMG = PRODUCTS_ENRICHED.find((p) => p.id === "sarten-asas-cabo")!.img
 const SECOND_IMG = PRODUCTS_ENRICHED.find((p) => p.id === "olla-reforzada")!.img;
 
 const ease = [0.16, 1, 0.3, 1] as const;
+
+interface HeroProps {
+  query?: string;
+  setQuery?: (q: string) => void;
+}
 
 function MarqueeRow() {
   const items = [
@@ -34,7 +39,7 @@ function MarqueeRow() {
   );
 }
 
-export default function Hero() {
+export default function Hero({ query, setQuery }: HeroProps) {
   return (
     <section id="top" className="grid-blueprint relative flex min-h-screen flex-col justify-end overflow-hidden pt-24">
       {/* glow */}
@@ -97,16 +102,62 @@ export default function Hero() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease, delay: 0.72 }}
-            className="mt-9 flex flex-wrap items-center gap-4"
+            className="mt-8 max-w-2xl"
           >
-            <a
-              href="#catalogo"
-              className="group flex items-center gap-3 rounded-full bg-forge px-7 py-4 font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-white shadow-[0_4px_24px_rgba(242,100,25,0.3)] transition-all hover:shadow-[0_8px_36px_rgba(242,100,25,0.45)] hover:scale-[1.02]"
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                document.getElementById("catalogo")?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="group relative flex items-center rounded-2xl border-2 border-line bg-white/95 p-2 shadow-[0_12px_40px_rgba(0,0,0,0.08)] backdrop-blur-md transition-all duration-300 focus-within:border-forge focus-within:shadow-[0_16px_50px_rgba(242,100,25,0.2)] hover:border-forge/40"
             >
-              Explorar catálogo
-              <ArrowDown className="size-4 transition-transform group-hover:translate-y-0.5" />
-            </a>
+              <div className="flex items-center pl-3 pr-2 text-forge">
+                <Search className="size-6 sm:size-7" strokeWidth={2.2} />
+              </div>
+              <input
+                type="text"
+                value={query ?? ""}
+                onChange={(e) => {
+                  setQuery?.(e.target.value);
+                }}
+                placeholder="Buscar por producto, código (ej: 0105, 1744), medida..."
+                className="w-full bg-transparent px-2 py-3 text-base sm:text-lg font-medium text-paper placeholder:text-fog/60 focus:outline-none"
+              />
+              {query && (
+                <button
+                  type="button"
+                  onClick={() => setQuery?.("")}
+                  className="mr-1 rounded-full p-2 text-fog hover:bg-slate-100 hover:text-paper"
+                >
+                  <X className="size-5" />
+                </button>
+              )}
+              <button
+                type="submit"
+                className="flex items-center gap-2 rounded-xl bg-forge px-5 sm:px-7 py-3.5 font-mono text-[11px] sm:text-xs font-bold uppercase tracking-[0.2em] text-white shadow-[0_4px_20px_rgba(242,100,25,0.35)] transition-all hover:bg-forge/90 hover:scale-[1.02] active:scale-[0.98]"
+              >
+                <span>Buscar</span>
+                <ArrowRight className="size-4" />
+              </button>
+            </form>
 
+            {/* Quick tags */}
+            <div className="mt-3.5 flex flex-wrap items-center gap-2 text-xs">
+              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-fog">Búsquedas rápidas:</span>
+              {["Olla reforzada", "Asadera", "Sartén", "Molde 1605", "Cacerola", "Panera"].map((tag) => (
+                <button
+                  key={tag}
+                  type="button"
+                  onClick={() => {
+                    setQuery?.(tag);
+                    document.getElementById("catalogo")?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  className="rounded-full border border-line bg-white/80 px-3 py-1 font-mono text-[10px] font-medium text-silver shadow-2xs transition-all hover:border-forge hover:text-forge hover:bg-white"
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
           </motion.div>
 
           {/* Stats */}

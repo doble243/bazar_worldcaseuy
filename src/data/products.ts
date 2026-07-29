@@ -365,7 +365,7 @@ export const PRODUCTS: Product[] = [
     category: "familiar",
     img: `${U}2026/05/FOTOS-411.jpg`,
     note: "26 cm de diámetro por 12 cm de altura.",
-    variants: [{ code: "—", size: "Ø 26 cm", detail: "12 cm de altura. Con tubo." }],
+    variants: [{ code: "1605", size: "Ø 26 cm", detail: "12 cm de altura. Con tubo." }],
   },
   {
     id: "moldes-aro",
